@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="量子誤り訂正、量子化学、最適化、量子機械学習、耐量子暗号を扱うローカル実験ポートフォリオ。">
+    <title>Quantum Research Lab</title>
+    <style>
+      :root { --ink:#ecf7f1; --muted:#a8bdb3; --ground:#081512; --surface:#10231e; --line:#2b443d; --mint:#53d4a9; --yellow:#f0cc67; --coral:#fc987f; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; color:var(--ink); background:var(--ground); font:16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif; }
+      a { color:inherit; }
+      .wrap { width:min(1120px, calc(100% - 40px)); margin:auto; }
+      header { border-bottom:1px solid var(--line); }
+      .nav { min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+      .mark { display:flex; align-items:center; gap:11px; font-weight:720; text-decoration:none; letter-spacing:0; }
+      .mark i { width:11px; height:11px; border-radius:50%; background:var(--mint); box-shadow:0 0 20px var(--mint); }
+      .navlinks { display:flex; gap:22px; color:var(--muted); font-size:14px; }
+      .navlinks a { text-decoration:none; }
+      .navlinks a:hover { color:var(--ink); }
+      .hero { display:grid; grid-template-columns:minmax(0,1fr) 420px; gap:54px; align-items:center; min-height:590px; padding:72px 0; }
+      .eyebrow { margin:0 0 15px; color:var(--mint); font-size:12px; font-weight:750; letter-spacing:.12em; text-transform:uppercase; }
+      h1 { max-width:650px; margin:0; font-size:clamp(42px, 6vw, 76px); line-height:1.02; letter-spacing:0; }
+      .hero p:not(.eyebrow) { max-width:580px; margin:22px 0 0; color:var(--muted); font-size:18px; }
+      .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:31px; }
+      .button { border:1px solid var(--mint); padding:11px 17px; color:#082018; background:var(--mint); font-weight:700; text-decoration:none; }
+      .button.ghost { color:var(--ink); background:transparent; border-color:var(--line); }
+      .visual { position:relative; aspect-ratio:1; overflow:hidden; border:1px solid var(--line); background:var(--surface); }
+      .visual canvas { width:100%; height:100%; }
+      .visual figcaption { position:absolute; left:18px; bottom:15px; color:var(--muted); font-size:12px; }
+      section { padding:72px 0; border-top:1px solid var(--line); }
+      .section-head { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:28px; }
+      h2 { max-width:680px; margin:0; font-size:clamp(28px, 4vw, 45px); line-height:1.1; }
+      .section-head p { max-width:410px; margin:0; color:var(--muted); }
+      .metrics { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); border:1px solid var(--line); }
+      .metric { min-height:136px; padding:20px; border-right:1px solid var(--line); }
+      .metric:last-child { border-right:0; }
+      .metric small { display:block; color:var(--muted); font-size:12px; text-transform:uppercase; }
+      .metric strong { display:block; margin-top:18px; color:var(--yellow); font:650 30px/1 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap:anywhere; }
+      .areas { display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+      .area { min-height:252px; padding:20px; background:var(--surface); }
+      .area b { display:block; color:var(--mint); font:700 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .area h3 { margin:18px 0 8px; font-size:18px; }
+      .area p { margin:0; color:var(--muted); font-size:14px; }
+      .results { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:30px; }
+      .tabs { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px; }
+      .tabs button { border:1px solid var(--line); padding:8px 11px; color:var(--muted); background:transparent; cursor:pointer; }
+      .tabs button.active, .tabs button:hover { color:#082018; background:var(--mint); border-color:var(--mint); }
+      .panel { min-height:280px; padding:25px; border:1px solid var(--line); background:var(--surface); }
+      .panel h3 { margin:0; font-size:24px; }
+      .panel p { color:var(--muted); }
+      .result-number { margin:24px 0 4px; color:var(--yellow); font:650 42px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .side-note { padding:24px; border-left:2px solid var(--coral); background:#13231f; }
+      .side-note h3 { margin:0 0 12px; font-size:16px; }
+      .side-note p { margin:0; color:var(--muted); font-size:14px; }
+      .sources { display:flex; flex-wrap:wrap; gap:10px; }
+      .sources a { border-bottom:1px solid var(--mint); color:var(--muted); text-decoration:none; }
+      footer { padding:26px 0 40px; color:var(--muted); font-size:13px; }
+      @media (max-width:850px) { .hero,.results { grid-template-columns:1fr; } .hero { min-height:0; padding:64px 0; } .visual { width:min(100%,460px); } .metrics { grid-template-columns:repeat(2,1fr); } .metric:nth-child(2) { border-right:0; } .metric:nth-child(-n+2) { border-bottom:1px solid var(--line); } .areas { grid-template-columns:repeat(2,1fr); } }
+      @media (max-width:550px) { .wrap { width:min(100% - 28px,1120px); } .navlinks { gap:13px; font-size:12px; } .section-head { display:grid; } .metrics,.areas { grid-template-columns:1fr; } .metric { border-right:0; border-bottom:1px solid var(--line); } .metric:last-child { border-bottom:0; } .area { min-height:0; } }
+    </style>
+  </head>
+  <body>
+    <header><div class="wrap nav"><a class="mark" href="#top"><i></i> Quantum Research Lab</a><nav class="navlinks"><a href="#areas">領域</a><a href="#results">結果</a><a href="https://github.com/sigma7863/quantum-research-lab">GitHub</a></nav></div></header>
+    <main id="top">
+      <div class="wrap hero">
+        <div><p class="eyebrow">Local quantum experiments</p><h1>量子計算を<br>現実の数値で読む。</h1><p>誤り訂正、量子化学、最適化、量子機械学習、耐量子暗号を、小規模でも再現できる実験としてまとめた研究ポートフォリオです。</p><div class="actions"><a class="button" href="#results">実験結果を見る</a><a class="button ghost" href="https://github.com/sigma7863/quantum-research-lab">ソースコード</a></div></div>
+        <figure class="visual"><canvas id="field" width="840" height="840" aria-label="量子状態の概念図"></canvas><figcaption>State-space study / local simulation</figcaption></figure>
+      </div>
+      <section><div class="wrap"><div class="section-head"><h2>まず、主張より比較可能な結果を。</h2><p>すべての実験には、古典的ベースラインか明確な適用限界を置いています。</p></div><div class="metrics"><div class="metric"><small>H2 VQE error</small><strong>0.000098</strong></div><div class="metric"><small>QAOA ratio</small><strong>1.00</strong></div><div class="metric"><small>Quantum kernel</small><strong>91.7%</strong></div><div class="metric"><small>ML-KEM round trip</small><strong>0.12ms</strong></div></div></div></section>
+      <section id="areas"><div class="wrap"><div class="section-head"><h2>5つの研究領域</h2><p>現在の量子研究で重要な「計算基盤」「候補アプリケーション」「移行準備」を横断します。</p></div><div class="areas"><article class="area"><b>01</b><h3>誤り訂正</h3><p>反復符号とデコーダーで、物理エラーが論理エラーへどう変わるかを測定。</p></article><article class="area"><b>02</b><h3>量子化学</h3><p>H2のVQEを厳密対角化と比較し、ノイズによる差分を確認。</p></article><article class="area"><b>03</b><h3>最適化</h3><p>重み付きMax-CutをQAOAで解き、完全探索とランダム基準を併記。</p></article><article class="area"><b>04</b><h3>量子ML</h3><p>量子カーネルとRBF SVMを同じデータ上で正面から比較。</p></article><article class="area"><b>05</b><h3>耐量子暗号</h3><p>ML-KEMとML-DSAの鍵・暗号文・署名サイズとローカル遅延を観察。</p></article></div></div></section>
+      <section id="results"><div class="wrap"><div class="section-head"><h2>初回実験結果</h2><p>同一シードで再実行できるローカル測定値です。量子優位性を示すものではありません。</p></div><div class="results"><div><div class="tabs" id="tabs"></div><article class="panel" id="panel"></article></div><aside class="side-note"><h3>研究の境界</h3><p>小規模シミュレーションはアルゴリズムの挙動を見るための道具です。実機での性能や大規模な量子優位性は、別の検証を必要とします。</p></aside></div></div></section>
+      <section><div class="wrap"><div class="section-head"><h2>実装と出典</h2><p>Python、PennyLane、Stim、PyMatching、pqcryptoを使ったローカル実験です。</p></div><div class="sources"><a href="https://github.com/quantumlib/Stim">Stim</a><a href="https://docs.pennylane.ai/en/stable/introduction/chemistry.html">PennyLane Chemistry</a><a href="https://csrc.nist.gov/Projects/Post-Quantum-Cryptography">NIST PQC</a><a href="https://www.ibm.com/roadmaps/quantum/2026/">IBM Quantum Roadmap</a></div></div></section>
+    </main>
+    <footer><div class="wrap">Quantum Research Lab. Source and reproducibility notes are available on GitHub.</div></footer>
+    <script>
+      const data = {
+        qec:{label:'誤り訂正',title:'反復符号の論理エラー率',value:'0.10%',detail:'距離7・物理エラー率3%での論理エラー率。小さな符号距離でも、ノイズ条件により距離を伸ばす効果を確認できました。'},
+        vqe:{label:'量子化学',title:'H2 VQEの絶対誤差',value:'0.000098 Ha',detail:'最適化後の理想状態エネルギーは -0.642956 Ha、厳密値は -0.643054 Ha。ノイズを入れると約0.0107 Haの差が生じました。'},
+        qaoa:{label:'最適化',title:'QAOA Max-Cut',value:'4 / 4',detail:'4頂点・5辺の小さなグラフで、最良サンプルは完全探索の最適値4に到達。ランダム基準は2.5でした。'},
+        qml:{label:'量子ML',title:'量子カーネルの精度',value:'91.7%',detail:'two-moonsデータセットで量子カーネルは91.7%。RBF SVMは95.8%で、ここでは古典ベースラインを上回りませんでした。'},
+        pqc:{label:'耐量子暗号',title:'ML-KEM-512 往復',value:'0.12 ms',detail:'ローカル実行での平均鍵カプセル化往復時間。公開鍵800 bytes、暗号文768 bytes、共有鍵一致を検証しました。'}
+      };
+      const tabs=document.querySelector('#tabs'), panel=document.querySelector('#panel');
+      function select(key){ const item=data[key]; tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.key===key)); panel.innerHTML=`<h3>${item.title}</h3><div class="result-number">${item.value}</div><p>${item.detail}</p>`; }
+      Object.entries(data).forEach(([key,item])=>{const b=document.createElement('button');b.textContent=item.label;b.dataset.key=key;b.onclick=()=>select(key);tabs.appendChild(b)}); select('qec');
+      const canvas=document.querySelector('#field'),ctx=canvas.getContext('2d'),cx=420,cy=420;
+      ctx.fillStyle='#10231e';ctx.fillRect(0,0,840,840); for(let r=90;r<390;r+=72){ctx.strokeStyle='rgba(83,212,169,.2)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();} for(let i=0;i<96;i++){let a=i*2.39996,r=34+i*3.45,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;ctx.fillStyle=i%6?'#53d4a9':'#f0cc67';ctx.globalAlpha=.25+(i%5)*.15;ctx.beginPath();ctx.arc(x,y,2+(i%4),0,Math.PI*2);ctx.fill();} ctx.globalAlpha=1;ctx.fillStyle='#fc987f';ctx.beginPath();ctx.arc(cx,cy,12,0,Math.PI*2);ctx.fill();
+    </script>
+  </body>
+</html>
